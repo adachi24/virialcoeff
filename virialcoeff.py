@@ -244,7 +244,7 @@ def boyle_temp_monomer(seq: str, interaction: dict, Tmin: float = 10.0, Tmax: fl
         Dictionary of the interaction potential between two amino acids [kJ/mol].
     Tmin, Tmax: float
         Minimum and maximum temperatures [K].
-    
+
     Returns
     -------
     TB: float
@@ -275,7 +275,7 @@ def boyle_temp_resc_dimer(seq: str, interaction: dict, alpha: float, Tmin: float
         Rescaling factor.
     Tmin, Tmax: float
         Minimum and maximum temperatures [K].
-    
+
     Returns
     -------
     TB: float
@@ -310,7 +310,7 @@ def critical_temp_resc_dimer(seq: str, interaction: dict, alpha: float, l_lb: fl
         Whether to plot the fitting result.
     Tmin_TB, Tmax_TB: float
         Minimum and maximum temperatures divided by the Boyle temperature TB within the rescaled dimer pair approximation.
-    
+
     Returns
     -------
     Tc: float
@@ -323,12 +323,12 @@ def critical_temp_resc_dimer(seq: str, interaction: dict, alpha: float, l_lb: fl
 
     def virial_fit(T, A1, B1):  # A1 and B1 are the fitting parameters of the second virial coefficient B(T) = A1 - B1/T
         return A1 - B1 / T
-    
+
     Ts = np.linspace(Tmin_TB*TB, Tmax_TB*TB, 10)
     Bs = np.array([virial_resc_dimer(T, seq, seq, interaction, alpha) for T in Ts])
     solution = optimize.curve_fit(virial_fit, Ts, Bs)
     A1, B1 = solution[0]
-    A0, B0 = A1 / (N**2*l**3), B1 / (N**2*l**3)    
+    A0, B0 = A1 / (N**2*l**3), B1 / (N**2*l**3)
     Tc = B0 / (A0+1/math.sqrt(N)+1/(2*N))
 
     if plot:
@@ -354,7 +354,7 @@ def effective_virial_monomer(T: float, seq1: str, seq2: str, interaction: dict) 
         Amino acid sequences.
     interaction: dict
         Dictionary of the interaction potential between two amino acids [kJ/mol].
-    
+
     Returns
     -------
     Btilde: float
@@ -381,7 +381,7 @@ def effective_virial_resc_dimer(T: float, seq1: str, seq2: str, interaction: dic
         Dictionary of the interaction potential between two amino acids [kJ/mol].
     alpha: float
         Rescaling factor.
-    
+
     Returns
     -------
     Btilde: float
@@ -403,7 +403,7 @@ def aa_types() -> list:
     aa_types_: list
         List of amino acid types.
     """
-    aa_types_ = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
+    aa_types_ = list('DERKHSTNQCGPAVILMFYW')
     return aa_types_
 
 
@@ -434,7 +434,7 @@ def virial_matrix_monomer(T: float, interaction: dict) -> pd.DataFrame:
         Temperature [K].
     interaction: dict
         Dictionary of the interaction potential between two amino acids [kJ/mol].
-    
+
     Returns
     -------
     vmat: pd.DataFrame
@@ -461,7 +461,7 @@ def virial_matrix_resc_dimer(T: float, interaction: dict, alpha: float) -> pd.Da
         Dictionary of the interaction potential between two amino acids [kJ/mol].
     alpha: float
         Rescaling factor.
-    
+
     Returns
     -------
     vmat: pd.DataFrame
